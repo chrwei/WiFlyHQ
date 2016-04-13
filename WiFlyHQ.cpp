@@ -2476,7 +2476,6 @@ boolean WiFly::ping(const char *host)
     send('\r');
 
     match_P(PSTR("Ping try"));
-    gets(NULL,0);
     if (!getPrompt()) {
         finishCommand();
         return false;
@@ -2485,10 +2484,12 @@ boolean WiFly::ping(const char *host)
     if (match_P(PSTR("reply from"), 5000)) {
         flushRx(); //as long as we get a "reply from" it's good.
         finishCommand();
+        DPRINTLN(F("ping success"));
         return true;
     }
 
     finishCommand();
+    DPRINTLN(F("ping fail"));
     return false;
 }
 
